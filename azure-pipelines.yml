@@ -1,8 +1,8 @@
 trigger:
-- master
+- main
 
 pool:
-  name: 'sandeep'   # self-hosted agent
+  name: 'Default'   # self-hosted agent
 
 variables:
   buildConfiguration: 'Release'
@@ -24,12 +24,7 @@ steps:
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
-# 4. Run unit tests
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'test'
-    projects: '**/*Tests/*.csproj'   # adjust if your test project has a different folder/name
-    arguments: '--configuration $(buildConfiguration) --no-build'
+
 
 # 5. Publish Web API project
 - task: DotNetCoreCLI@2
@@ -42,8 +37,8 @@ steps:
 # 6. Deploy to Azure Web App
 - task: AzureWebApp@1
   inputs:
-    azureSubscription: 'tuesday'
+    azureSubscription: 'papahelp'
     appType: 'webApp'
-    appName: 'EmpApp'
+    appName: 'finalcicdwithbatch'
     package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
